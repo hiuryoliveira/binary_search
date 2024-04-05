@@ -1,12 +1,23 @@
+use std::time::Instant;
 
 fn main() {
-    let items: Vec<i32> = (1..=100).collect();
+    let items: Vec<i32> = (1..=10000000).collect();
 
-    let target = 4;
+    let target = 809889;
     match binary_search(&items, target) {
         Some(index) => println!("Found {} at index {}", target, index),
         None => println!("{} not found", target),
     }
+
+
+    // Benchmark
+    let start = Instant::now();
+    let iterations = 1000000;
+    for _ in 0..iterations {        
+        binary_search(&items, target);
+    }
+    let duration = start.elapsed();
+    println!("Benchmark duration: {:?}", duration);
 }
 
 fn binary_search(items: &[i32], target: i32) -> Option<usize> {
