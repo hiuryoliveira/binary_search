@@ -1,29 +1,29 @@
-use std::time::Instant;
 use rand::Rng;
 use std::thread;
+use std::time::Instant;
 
 fn main() {
     let items: Vec<i32> = (1..=10000000).collect();
-    let target = 809889;
+    let target = random_value();
     match binary_search(&items, target) {
         Some(index) => println!("Found {} at index {}", target, index),
         None => println!("{} not found", target),
     }
 
-    // Benchmark
+    // Benchmark without threads.
     let start = Instant::now();
     let iterations = 10000000;
-    for _ in 0..iterations {        
+    for _ in 0..iterations {
         binary_search(&items, random_value());
     }
     let duration = start.elapsed();
     println!("Benchmark duration without threads: {:?}", duration);
 
-    // Benchmark with threads
+    // Benchmark with threads.
     let start = Instant::now();
     let iterations = 10000000;
     let handle = thread::spawn(move || {
-        for _ in 0..iterations {        
+        for _ in 0..iterations {
             binary_search(&items, random_value());
         }
     });
@@ -45,12 +45,12 @@ fn binary_search(items: &[i32], target: i32) -> Option<usize> {
         let mid = (left + right) / 2;
         if items[mid] == target {
             return Some(mid);
-        } 
-        
+        }
+
         if items[mid] < target {
             left = mid + 1;
-        } 
-        
+        }
+
         if items[mid] > target {
             right = mid - 1;
         }
