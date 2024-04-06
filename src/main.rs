@@ -17,8 +17,7 @@ fn main() {
         binary_search(&items, random_value());
     }
     let duration = start.elapsed();
-    println!("Benchmark duration: {:?}", duration);
-
+    println!("Benchmark duration without threads: {:?}", duration);
 
     // Benchmark with threads
     let start = Instant::now();
@@ -30,7 +29,7 @@ fn main() {
     });
     handle.join().unwrap();
     let duration = start.elapsed();
-    println!("Benchmark duration: {:?}", duration);
+    println!("Benchmark duration with threads: {:?}", duration);
 }
 
 fn random_value() -> i32 {
